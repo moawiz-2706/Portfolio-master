@@ -6,9 +6,11 @@ import Type from "./Type";
 import Tilt from "react-parallax-tilt";
 import { motion } from "framer-motion";
 import AnimatedBackdrop from "../VisualEffects/AnimatedBackdrop";
+import NumberCounter from "../AnimatedElements/NumberCounter";
 import { AiOutlineDownload, AiOutlineMail, AiOutlinePhone, AiOutlineArrowRight } from "react-icons/ai";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import { heroSignals, heroStats, profile } from "../../data/portfolioData";
+import { staggerContainer, staggerItem } from "../../utils/animationVariants";
 
 function Home() {
   return (
@@ -110,28 +112,35 @@ function Home() {
             </Col>
           </Row>
 
-          <Row className="hero-stats-row">
+          <motion.div 
+            className="hero-stats-row"
+            {...staggerContainer(0.1, 0.3)}
+          >
             {heroStats.map((stat, index) => (
               <Col md={3} sm={6} key={stat.label}>
                 <motion.div
-                  initial={{ opacity: 0, y: -60 }}
-                  animate={{ opacity: 1, y: [ -40, 0 ] }}
-                  transition={{ duration: 0.8, delay: 0.12 * index }}
+                  variants={staggerItem}
                 >
                   <motion.div
                     className="glass-card stat-card"
-                    whileHover={{ scale: 1.03 }}
+                    whileHover={{ scale: 1.05 }}
                     animate={{ y: [0, -8, 0] }}
                     transition={{ duration: 3 + index * 0.2, repeat: Infinity }}
                     style={{ cursor: "pointer" }}
                   >
-                    <span className="stat-value">{stat.value}</span>
+                    <NumberCounter 
+                      end={parseInt(stat.value.replace(/\D/g, ''))} 
+                      duration={2}
+                      suffix={stat.value.replace(/[\d]/g, '')}
+                      delay={index * 0.1}
+                      className="stat-value"
+                    />
                     <span className="stat-label">{stat.label}</span>
                   </motion.div>
                 </motion.div>
               </Col>
             ))}
-          </Row>
+          </motion.div>
 
           <Row className="hero-signals-row">
             <Col md={12}>

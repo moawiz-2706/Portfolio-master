@@ -3,6 +3,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import { motion } from "framer-motion";
 import Particle from "../Particle";
 import { profile, services } from "../../data/portfolioData";
+import { staggerContainer, staggerItem } from "../../utils/animationVariants";
 
 function Services() {
   return (
@@ -31,15 +32,17 @@ function Services() {
           </div>
         </motion.div>
 
-        <Row className="g-4">
+        <motion.div 
+          className="g-4"
+          style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: "1rem" }}
+          {...staggerContainer(0.1, 0.1)}
+        >
           {services.map((service, index) => (
-            <Col md={6} lg={4} key={service.id} className="mb-4">
+            <motion.div key={service.id} variants={staggerItem}>
               <motion.article
-                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.45, delay: 0.05 * index }}
-                whileHover={{ y: -10, scale: 1.01 }}
+                whileHover={{ y: -10, scale: 1.02 }}
                 className="glass-card"
                 style={{
                   padding: 26,
@@ -77,9 +80,9 @@ function Services() {
                   </Button>
                 </div>
               </motion.article>
-            </Col>
+            </motion.div>
           ))}
-        </Row>
+        </motion.div>
       </Container>
     </Container>
   );

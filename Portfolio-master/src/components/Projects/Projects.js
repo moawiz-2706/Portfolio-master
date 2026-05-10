@@ -5,6 +5,7 @@ import { BsGithub } from "react-icons/bs";
 import { CgWebsite } from "react-icons/cg";
 import Particle from "../Particle";
 import { liveProjects } from "../../data/portfolioData";
+import { staggerContainer, staggerItem } from "../../utils/animationVariants";
 
 function Projects() {
   const [selectedProject, setSelectedProject] = useState(null);
@@ -27,16 +28,19 @@ function Projects() {
           </p>
         </motion.div>
 
-        <Row className="g-4">
+        <motion.div 
+          className="g-4"
+          style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))", gap: "1rem" }}
+          {...staggerContainer(0.1, 0.2)}
+        >
           {liveProjects.map((project, index) => (
-            <Col md={6} lg={4} key={project.id} className="mb-4">
+            <motion.div key={project.id} variants={staggerItem}>
               <motion.article
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.5, delay: 0.05 * index }}
-                whileHover={{ y: -12, scale: 1.01 }}
-                className="glass-card"
+                whileHover={{ y: -12, scale: 1.02 }}
+                className="glass-card project-card"
                 onClick={() => setSelectedProject(project)}
                 style={{
                   padding: 24,
@@ -122,19 +126,25 @@ function Projects() {
                   )}
                 </div>
               </motion.article>
-            </Col>
+            </motion.div>
           ))}
-        </Row>
+        </motion.div>
 
         <AnimatePresence>
           {selectedProject && (
-            <Modal
-              show={!!selectedProject}
-              onHide={() => setSelectedProject(null)}
-              centered
-              size="lg"
-              className="project-detail-modal"
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
             >
+              <Modal
+                show={!!selectedProject}
+                onHide={() => setSelectedProject(null)}
+                centered
+                size="lg"
+                className="project-detail-modal"
+              >
               <Modal.Header closeButton>
                 <Modal.Title>{selectedProject.title}</Modal.Title>
               </Modal.Header>
@@ -173,6 +183,7 @@ function Projects() {
                 )}
               </Modal.Footer>
             </Modal>
+            </motion.div>
           )}
         </AnimatePresence>
       </Container>

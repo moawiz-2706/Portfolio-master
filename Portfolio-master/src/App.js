@@ -18,6 +18,7 @@ import {
 } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import FloatingChatbot from "./components/AI/FloatingChatbot";
+import CursorFollower from "./components/AnimatedElements/CursorFollower";
 import "./style.css";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -36,6 +37,7 @@ function App() {
   return (
     <Router>
       <Preloader load={load} />
+      <CursorFollower />
       <div className="App" id={load ? "no-scroll" : "scroll"}>
         <Navbar />
         <ScrollToTop />

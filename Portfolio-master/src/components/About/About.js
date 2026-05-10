@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Row, Col, Card } from "react-bootstrap";
+import { Container, Row, Card } from "react-bootstrap";
 import { motion } from "framer-motion";
 import Tilt from "react-parallax-tilt";
 import AnimatedBackdrop from "../VisualEffects/AnimatedBackdrop";
@@ -9,6 +9,7 @@ import laptopImg from "../../Assets/about.png";
 import { certifications, education, experience, ghlServices, leadership, profile, skillGroups } from "../../data/portfolioData";
 import { AiOutlineCheck, AiOutlineClockCircle } from "react-icons/ai";
 import SkillsRadar from "../Skills/SkillsRadar";
+import { staggerContainer, staggerItem } from "../../utils/animationVariants";
 
 function About() {
   return (
@@ -46,11 +47,10 @@ function About() {
             <SkillsRadar />
           </Col>
           <Col md={7}>
-            <Row>
+            <motion.div {...staggerContainer(0.08, 0.1)}>
               {skillGroups.map((group, index) => (
-                <Col md={6} sm={6} key={group.title} className="mb-4">
-                  <motion.div initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.45, delay: 0.05 * index }}>
-                    <Card className="glass-card info-card h-100">
+                <motion.div key={group.title} className="mb-4" variants={staggerItem} style={{ display: "inline-block", width: "calc(50% - 0.5rem)", marginRight: "1rem" }}>
+                  <Card className="glass-card info-card h-100">
                       <Card.Body>
                         <h4>{group.title}</h4>
                         <div className="chip-wrap">
@@ -62,21 +62,20 @@ function About() {
                         </div>
                       </Card.Body>
                     </Card>
-                  </motion.div>
-                </Col>
+                </motion.div>
               ))}
-            </Row>
+            </motion.div>
           </Col>
         </Row>
 
-        <Row className="content-section-grid">
+        <motion.div className="content-section-grid" {...staggerContainer(0.1, 0.2)}>
           <Col md={12}>
             <h2 className="project-heading">
               Experience <strong className="purple">timeline</strong>
             </h2>
           </Col>
-          {experience.map((item) => (
-            <Col md={6} key={item.role} className="mb-4">
+          {experience.map((item, idx) => (
+            <motion.div key={item.role} style={{ width: "50%", padding: "0.5rem" }} variants={staggerItem}>
               <Card className="glass-card timeline-card h-100">
                 <Card.Body>
                   <div className="timeline-head">
@@ -96,9 +95,9 @@ function About() {
                   )}
                 </Card.Body>
               </Card>
-            </Col>
+            </motion.div>
           ))}
-        </Row>
+        </motion.div>
 
         <Row className="content-section-grid">
           <Col md={6} className="mb-4">
