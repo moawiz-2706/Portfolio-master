@@ -23,6 +23,7 @@ import { LiquidCursor } from "./components/AnimatedElements/LiquidCursor";
 import { LenisProvider } from "./contexts/LenisContext";
 import "./style.css";
 import "./App.css";
+import "./styles/layout-optimization.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
