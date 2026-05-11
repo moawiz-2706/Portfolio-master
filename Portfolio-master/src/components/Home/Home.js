@@ -15,6 +15,8 @@ import { TextRevealWithBlur } from "../AnimatedElements/TextReveal";
 import { useScrollProgress } from "../../hooks/useScrollProgress";
 import { kineticTextAnimation, counterAnimation } from "../../utils/gsapAnimations";
 import { SpringButton } from "../AnimatedElements/SpringButton";
+import { HeroWith3D } from "../VisualEffects/HeroWith3D";
+import "../VisualEffects/HeroWith3D.css";
 
 function Home() {
   const { scrollProgress } = useScrollProgress();
@@ -41,9 +43,10 @@ function Home() {
   
   return (
     <section>
-      <Container fluid className="home-section modern-home-section" id="home">
-        <AnimatedBackdrop />
-        <Container className="home-content">
+      <HeroWith3D>
+        <Container fluid className="home-section modern-home-section" id="home">
+          <AnimatedBackdrop />
+          <Container className="home-content">
           <Row className="align-items-center hero-grid">
             <Col md={7} className="home-header">
               <motion.div
@@ -208,6 +211,7 @@ function Home() {
           </Row>
         </Container>
       </Container>
+      </HeroWith3D>
       <Home2 />
     </section>
   );
