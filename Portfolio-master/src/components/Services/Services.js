@@ -3,34 +3,44 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import { motion } from "framer-motion";
 import Particle from "../Particle";
 import { profile, services } from "../../data/portfolioData";
-import { staggerContainer, staggerItem } from "../../utils/animationVariants";
+import { staggerContainer, staggerItem, titleRevealLine } from "../../utils/animationVariants";
+import { SectionTitle } from "../AnimatedElements/SectionTitle";
+import { ParallaxScroll } from "../VisualEffects/ParallaxScroll";
 
 function Services() {
   return (
     <Container fluid className="project-section">
       <Particle />
       <Container className="project-content">
-        <motion.div
-          initial={{ opacity: 0, y: -22 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-5 text-center"
-        >
-          <h1 style={{ color: "#00d4ff", marginBottom: 15, fontSize: "3.3rem", fontWeight: 800 }}>
-            Services & <strong className="purple">Solutions</strong>
-          </h1>
-          <p style={{ color: "#a0a0a0", fontSize: "1.1rem", maxWidth: 900, margin: "0 auto" }}>
+        <ParallaxScroll intensity={0.3}>
+          <SectionTitle 
+            title="Services &" 
+            subtitle="Solutions"
+            className="mb-5 text-center"
+          />
+          <motion.p 
+            style={{ color: "#a0a0a0", fontSize: "1.1rem", maxWidth: 900, margin: "0 auto" }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.5 }}
+            transition={{ delay: 0.3 }}
+          >
             I help businesses build websites, automate workflows, integrate software, customize GoHighLevel, and ship features without unnecessary pricing noise.
-          </p>
-          <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginTop: 20 }}>
+          </motion.p>
+          <motion.div 
+            style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginTop: 20 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+          >
             <Button href={`mailto:${profile.email}`} variant="primary" className="hero-button">
               Email me
             </Button>
             <Button href={profile.linkedin} target="_blank" rel="noreferrer" variant="outline-light" className="hero-button ghost">
               LinkedIn
             </Button>
-          </div>
-        </motion.div>
+          </motion.div>
+        </ParallaxScroll>
 
         <motion.div 
           className="g-4"
@@ -40,9 +50,11 @@ function Services() {
           {services.map((service, index) => (
             <motion.div key={service.id} variants={staggerItem}>
               <motion.article
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                whileHover={{ y: -10, scale: 1.02 }}
+                viewport={{ once: false, amount: 0.2 }}
+                whileHover={{ y: -12, scale: 1.03, rotateZ: -1 }}
+                whileTap={{ scale: 0.98 }}
                 className="glass-card"
                 style={{
                   padding: 26,

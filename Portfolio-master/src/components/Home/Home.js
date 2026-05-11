@@ -10,9 +10,13 @@ import NumberCounter from "../AnimatedElements/NumberCounter";
 import { AiOutlineDownload, AiOutlineMail, AiOutlinePhone, AiOutlineArrowRight } from "react-icons/ai";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import { heroSignals, heroStats, profile } from "../../data/portfolioData";
-import { staggerContainer, staggerItem } from "../../utils/animationVariants";
+import { staggerContainer, staggerItem, perspectiveEnter, titleRevealLine, hoverLift, glowPulse } from "../../utils/animationVariants";
+import { TextRevealWithBlur } from "../AnimatedElements/TextReveal";
+import { useScrollProgress } from "../../hooks/useScrollProgress";
 
 function Home() {
+  const { scrollProgress } = useScrollProgress();
+  
   return (
     <section>
       <Container fluid className="home-section modern-home-section" id="home">
@@ -26,17 +30,35 @@ function Home() {
                 transition={{ duration: 0.7 }}
               >
                 <span className="hero-kicker">{profile.location}</span>
-                <h1 style={{ paddingBottom: 15 }} className="heading">
+                <motion.h1 
+                  style={{ paddingBottom: 15 }} 
+                  className="heading"
+                  variants={perspectiveEnter}
+                  initial="initial"
+                  animate="animate"
+                >
                   Hi There!{" "}
-                  <span className="wave" role="img" aria-labelledby="wave">
+                  <motion.span 
+                    className="wave" 
+                    role="img" 
+                    aria-labelledby="wave"
+                    animate={{ rotate: [0, 20, -10, 0] }}
+                    transition={{ duration: 0.8, repeat: Infinity, delay: 0.5 }}
+                  >
                     👋🏻
-                  </span>
-                </h1>
+                  </motion.span>
+                </motion.h1>
 
-                <h1 className="heading-name">
+                <motion.h1 
+                  className="heading-name"
+                  variants={perspectiveEnter}
+                  initial="initial"
+                  animate="animate"
+                  transition={{ delay: 0.2 }}
+                >
                   I'M
                   <strong className="main-name"> {profile.name}</strong>
-                </h1>
+                </motion.h1>
 
                 <div className="hero-type-wrap">
                   <Type />
@@ -123,10 +145,11 @@ function Home() {
                 >
                   <motion.div
                     className="glass-card stat-card"
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={{ scale: 1.08, boxShadow: "0 0 30px rgba(0, 212, 255, 0.5)" }}
                     animate={{ y: [0, -8, 0] }}
                     transition={{ duration: 3 + index * 0.2, repeat: Infinity }}
                     style={{ cursor: "pointer" }}
+                    variants={glowPulse}
                   >
                     <NumberCounter 
                       end={parseInt(stat.value.replace(/\D/g, ''))} 

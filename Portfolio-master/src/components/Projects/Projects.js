@@ -5,7 +5,9 @@ import { BsGithub } from "react-icons/bs";
 import { CgWebsite } from "react-icons/cg";
 import Particle from "../Particle";
 import { liveProjects } from "../../data/portfolioData";
-import { staggerContainer, staggerItem } from "../../utils/animationVariants";
+import { staggerContainer, staggerItem, hoverLift, titleRevealLine } from "../../utils/animationVariants";
+import { SectionTitle } from "../AnimatedElements/SectionTitle";
+import { ParallaxScroll } from "../VisualEffects/ParallaxScroll";
 
 function Projects() {
   const [selectedProject, setSelectedProject] = useState(null);
@@ -14,19 +16,22 @@ function Projects() {
     <Container fluid className="project-section">
       <Particle />
       <Container className="project-content">
-        <motion.div
-          initial={{ opacity: 0, y: -24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-5 text-center"
-        >
-          <h1 style={{ color: "#00d4ff", marginBottom: 15, fontSize: "3.3rem", fontWeight: 800 }}>
-            Selected <strong className="purple">Projects</strong>
-          </h1>
-          <p style={{ color: "#a0a0a0", fontSize: "1.1rem", maxWidth: 820, margin: "0 auto" }}>
+        <ParallaxScroll intensity={0.3}>
+          <SectionTitle 
+            title="Selected" 
+            subtitle="Projects"
+            className="mb-5 text-center"
+          />
+          <motion.p 
+            style={{ color: "#a0a0a0", fontSize: "1.1rem", maxWidth: 820, margin: "0 auto" }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.5 }}
+            transition={{ delay: 0.3 }}
+          >
             A focused view of my own work only. Live apps show a demo button, while EduAssist is GitHub-only because it is a desktop application.
-          </p>
-        </motion.div>
+          </motion.p>
+        </ParallaxScroll>
 
         <motion.div 
           className="g-4"
@@ -38,8 +43,9 @@ function Projects() {
               <motion.article
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                whileHover={{ y: -12, scale: 1.02 }}
+                viewport={{ once: false, amount: 0.2 }}
+                whileHover={{ y: -15, scale: 1.03, rotateZ: 1 }}
+                whileTap={{ scale: 0.98 }}
                 className="glass-card project-card"
                 onClick={() => setSelectedProject(project)}
                 style={{
