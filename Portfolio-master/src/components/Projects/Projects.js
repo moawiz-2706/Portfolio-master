@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Container, Row, Col, Button, Modal } from "react-bootstrap";
 import { motion, AnimatePresence } from "framer-motion";
 import { BsGithub } from "react-icons/bs";
@@ -8,9 +8,29 @@ import { liveProjects } from "../../data/portfolioData";
 import { staggerContainer, staggerItem, hoverLift, titleRevealLine } from "../../utils/animationVariants";
 import { SectionTitle } from "../AnimatedElements/SectionTitle";
 import { ParallaxScroll } from "../VisualEffects/ParallaxScroll";
+import { revealAnimation, parallaxAnimation } from "../../utils/gsapAnimations";
 
 function Projects() {
   const [selectedProject, setSelectedProject] = useState(null);
+  const projectsGridRef = useRef(null);
+  const projectCardsRef = useRef([]);
+
+  useEffect(() => {
+    if (projectCardsRef.current.length > 0) {
+      revealAnimation(projectCardsRef.current, {
+        delay: 0.15,
+        duration: 0.8,
+        startTrigger: 'top 75%',
+      });
+    }
+
+    if (projectsGridRef.current) {
+      parallaxAnimation(projectsGridRef.current, {
+        speed: 0.3,
+        startTrigger: 'top 100%',
+      });
+    }
+  }, []);
 
   return (
     <Container fluid className="project-section">
@@ -34,12 +54,19 @@ function Projects() {
         </ParallaxScroll>
 
         <motion.div 
+          ref={projectsGridRef}
           className="g-4"
           style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))", gap: "1rem" }}
           {...staggerContainer(0.1, 0.2)}
         >
           {liveProjects.map((project, index) => (
-            <motion.div key={project.id} variants={staggerItem}>
+            <motion.div 
+              key={project.id} 
+              variants={staggerItem}
+              ref={(el) => {
+                if (el) projectCardsRef.current[index] = el;
+              }}
+            >
               <motion.article
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
