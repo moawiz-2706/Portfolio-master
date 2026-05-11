@@ -19,6 +19,8 @@ import {
 import ScrollToTop from "./components/ScrollToTop";
 import FloatingChatbot from "./components/AI/FloatingChatbot";
 import CursorFollower from "./components/AnimatedElements/CursorFollower";
+import { LiquidCursor } from "./components/AnimatedElements/LiquidCursor";
+import { LenisProvider } from "./contexts/LenisContext";
 import "./style.css";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -35,27 +37,30 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <Preloader load={load} />
-      <CursorFollower />
-      <div className="App" id={load ? "no-scroll" : "scroll"}>
-        <Navbar />
-        <ScrollToTop />
-        <FloatingChatbot />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/project" element={<Projects />} />
-          <Route path="/work" element={<Work />} />
-          <Route path="/stack" element={<Stack />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/resume" element={<Resume />} />
-          <Route path="*" element={<Navigate to="/"/>} />
-        </Routes>
-        <Footer />
-      </div>
-    </Router>
+    <LenisProvider>
+      <Router>
+        <Preloader load={load} />
+        <LiquidCursor />
+        <CursorFollower />
+        <div className="App" id={load ? "no-scroll" : "scroll"}>
+          <Navbar />
+          <ScrollToTop />
+          <FloatingChatbot />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/project" element={<Projects />} />
+            <Route path="/work" element={<Work />} />
+            <Route path="/stack" element={<Stack />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/resume" element={<Resume />} />
+            <Route path="*" element={<Navigate to="/"/>} />
+          </Routes>
+          <Footer />
+        </div>
+      </Router>
+    </LenisProvider>
   );
 }
 

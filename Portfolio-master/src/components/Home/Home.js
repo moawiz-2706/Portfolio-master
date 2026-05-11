@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import homeLogo from "../../Assets/moawiz.png";
 import Home2 from "./Home2";
@@ -13,9 +13,31 @@ import { heroSignals, heroStats, profile } from "../../data/portfolioData";
 import { staggerContainer, staggerItem, perspectiveEnter, titleRevealLine, hoverLift, glowPulse } from "../../utils/animationVariants";
 import { TextRevealWithBlur } from "../AnimatedElements/TextReveal";
 import { useScrollProgress } from "../../hooks/useScrollProgress";
+import { kineticTextAnimation, counterAnimation } from "../../utils/gsapAnimations";
+import { SpringButton } from "../AnimatedElements/SpringButton";
 
 function Home() {
   const { scrollProgress } = useScrollProgress();
+  const headingRef = useRef(null);
+  const statCardsRef = useRef([]);
+
+  useEffect(() => {
+    // Kinetic text animation on scroll
+    if (headingRef.current) {
+      kineticTextAnimation(headingRef.current, {
+        yPercent: 50,
+        duration: 1,
+      });
+    }
+
+    // Counter animations for stats
+    statCardsRef.current.forEach((card) => {
+      const valueElement = card?.querySelector('.stat-value');
+      if (valueElement) {
+        counterAnimation(valueElement, parseInt(valueElement.innerText), 2);
+      }
+    });
+  }, []);
   
   return (
     <section>
